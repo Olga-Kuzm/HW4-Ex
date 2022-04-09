@@ -11,43 +11,88 @@ const {
 // const build = 'test build';
 // const bsLocal = false;
 // const idleTimeout = 180000;
+
 const bsCaps = [
-    {
-        'bstack:options': {
-            "os": "Windows",
-            "osVersion": "10",
-            "local": "false",
-            "seleniumVersion": "3.5.2",
-            "userName": process.env.USER,
-            "accessKey": process.env.KEY,
-        },
-        "browserName": "Edge",
-        "browserVersion": "latest-beta",
-    },
-    {
-        'bstack:options': {
-            "os": "Windows",
-            "osVersion": "10",
-            "local": "false",
-            "seleniumVersion": "3.5.2",
-            "userName": process.env.USER,
-            "accessKey": process.env.KEY,
-        },
-        "browserName": "Firefox",
-        "browserVersion": "latest-beta",
-    },
-    {
-        'bstack:options': {
-            "os": "OS X",
-            "osVersion": "Monterey",
-            "local": "false",
-            "seleniumVersion": "3.14.0",
-            "userName": process.env.USER,
-            "accessKey": process.env.KEY,
-        },
-        "browserName": "Safari",
-        "browserVersion": "15.0",
-    }
+    // {
+    //     'bstack:options' : {
+    //         "os" : "Windows",
+    //         "osVersion" : "10",
+    //         "local" : "true",
+    //         "networkLogs" : "true",
+    //         "video" : "true",
+    //         "seleniumVersion" : "3.10.0",
+    //         "userName" : "olga_CvzrAJ",
+    //         "accessKey" : "qTdzLzYiG3ypipgyN9DN",
+    //         },
+    //         "browserName" : "Firefox",
+    //         "browserVersion" : "latest",
+    // },
+    // {
+    //     'bstack:options' : {
+    //         "os" : "OS X",
+    //         "osVersion" : "Monterey",
+    //         "local" : "true",
+    //         "networkLogs" : "true",
+    //         "video" : "true",
+    //         "seleniumVersion" : "3.5.2",
+    //         "userName" : "olga_CvzrAJ",
+    //         "accessKey" : "qTdzLzYiG3ypipgyN9DN",
+    //         },
+    //         "browserName" : "Edge",
+    //         "browserVersion" : "latest",
+    // },
+    // {
+    //     'bstack:options' : {
+    //         "osVersion" : "15",
+    //         "deviceName" : "iPhone XS",
+    //         "realMobile" : "true",
+    //         "local" : "true",
+    //         "video" : "true",
+    //         "networkLogs" : "true",
+    //         "userName" : "olga_CvzrAJ",
+    //         "accessKey" : "qTdzLzYiG3ypipgyN9DN",
+    //         },
+    //         "browserName" : "safari",
+    // }
+    
+    
+    
+    // {
+    //     'bstack:options': {
+    //         "os": "Windows",
+    //         "osVersion": "10",
+    //         "local": "false",
+    //         "seleniumVersion": "3.5.2",
+    //         "userName": process.env.USER,
+    //         "accessKey": process.env.KEY,
+    //     },
+    //     "browserName": "Edge",
+    //     "browserVersion": "latest-beta",
+    // },
+    // {
+    //     'bstack:options': {
+    //         "os": "Windows",
+    //         "osVersion": "10",
+    //         "local": "false",
+    //         "seleniumVersion": "3.5.2",
+    //         "userName": process.env.USER,
+    //         "accessKey": process.env.KEY,
+    //     },
+    //     "browserName": "Firefox",
+    //     "browserVersion": "latest-beta",
+    // },
+    // {
+    //     'bstack:options': {
+    //         "os": "OS X",
+    //         "osVersion": "Monterey",
+    //         "local": "false",
+    //         "seleniumVersion": "3.14.0",
+    //         "userName": process.env.USER,
+    //         "accessKey": process.env.KEY,
+    //     },
+    //     "browserName": "Safari",
+    //     "browserVersion": "15.0",
+    // }
 ];
 
 const localCaps = [{
@@ -63,8 +108,8 @@ const localCaps = [{
 const bsServices = ['browserstack'];
 const localServices = ['chromedriver'];
 exports.config = {
-    user: process.env.USER,
-    key: process.env.KEY,
+    user: process.env.USER || 'olga_CvzrAJ',
+    key: process.env.KEY || 'qTdzLzYiG3ypipgyN9DN',
     specs: [
         './specs/**/*.js'
     ],
@@ -72,8 +117,12 @@ exports.config = {
         // 'path/to/excluded/files'
     ],
     automationProtocol: 'webdriver',
+    
+
     maxInstances: 10,
     capabilities: process.env.HUB === 'bs' ? bsCaps : localCaps,
+    
+
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: 'warn',
     bail: 0,
@@ -81,8 +130,15 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
-    // services: process.env.HUB === 'bs' ? bsServices : localServices,
+    // services: process.env.HUB === 'bs' ? bsServices : localServices,   
     services: localServices,
+    // services : [
+    //     ['browserstack', {
+    //         browserstackLocal : true,
+            
+    //     }]
+    // ],
+    
     framework: 'mocha',
     cucumberOpts: {
         scenarioLevelReporter: true,
@@ -147,8 +203,17 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+        const fs = require('fs');
+       if(fs.existsSync('./screenshots')){
+        const fsExtra = require('fs-extra');
+        fsExtra.emptyDirSync('screenshots')
+        
+       }
+       else{
+           fs.mkdirSync('screenshots')
+       }
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -242,11 +307,17 @@ exports.config = {
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
     afterTest: async function (test, context, { error, result, duration, passed, retries }) {
+        const fs = require('fs')        
         if (!passed) {
-            await browser.takeScreenshot();
-        }
+            const name = new Date().toLocaleString();
+            const fileName = (`${test.title} ` + name).replace(/[\s/,.:]/g, '_');
+            
+            await browser.takeScreenshot().then((image) => {
+                fs.writeFileSync(`screenshots/${fileName}.png`, image, 'base64');                
+            })            
+        }   
     },
-
+    
     afterScenario: async (world, result, context) => {
         if (world.result.status === 'SKIPPED') {
             world.result.status = 'FAILED'
@@ -312,4 +383,5 @@ exports.config = {
      */
     //onReload: function(oldSessionId, newSessionId) {
     //}
+    
 }
