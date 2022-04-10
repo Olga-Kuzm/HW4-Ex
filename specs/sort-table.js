@@ -73,7 +73,6 @@ describe('Table sorting', function(){
                 return elem.getText()
             });            
             const asc = Object.assign([], arr).sort((a,b)=> a>b); 
-            console.log(asc)           
             expect (arr).toEqual(asc)
         });
         it('should sort Age in descending order', async function(){
@@ -83,8 +82,7 @@ describe('Table sorting', function(){
             const arr = await $$(valuesAge).map((elem)=>{
                 return elem.getText()
             });            
-            const desc = Object.assign([], arr).sort((a,b)=>  b>a);   
-            console.log(desc)      
+            const desc = Object.assign([], arr).sort((a,b)=>  b>a); 
             expect (arr).toEqual(desc)
         })
     })
