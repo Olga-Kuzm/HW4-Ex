@@ -9,8 +9,8 @@ async function addAndWaitNumber(number){
         await browser.waitUntil(
             async()=>{
                 const data = JSON.parse(await $(dataBase).getHTML(false));
-                const nums = data.map((el)=>el.num)                
-                 return nums.includes(number[i])
+                const nums = data.map((el)=>el.num);                
+                 return nums.includes(number[i]) && nums[i] === number[i]
             }
         )
     }
