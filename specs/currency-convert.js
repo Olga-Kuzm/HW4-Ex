@@ -1,7 +1,7 @@
 const dataBase = ('script#database');
 const currensyInput = ('#sum-to-buy');
 const output = ('#withdrew')
-const testNum = '54321'
+const testNum = '1234'
 
 async function addAndWaitNumber(number){
     for(let i = 0; i < number.length; i++){
