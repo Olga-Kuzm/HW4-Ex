@@ -1,11 +1,11 @@
 describe('Table sorting', function(){ 
-    const idHeader = ('//*[@class="tabulator-headers"]/*[@tabulator-field="id"]');
-    const nameHeader = ('//*[@class="tabulator-headers"]/*[@tabulator-field="name"]');
-    const ageHeader = ('//*[@class="tabulator-headers"]/*[@tabulator-field="age"]');
+    const idHeader = '//*[@class="tabulator-headers"]/*[@tabulator-field="id"]';
+    const nameHeader = '//*[@class="tabulator-headers"]/*[@tabulator-field="name"]';
+    const ageHeader = '//*[@class="tabulator-headers"]/*[@tabulator-field="age"]';
     
-    const valuesID = ('//*[@class="tabulator-cell"][@tabulator-field="id"]');
-    const valuesName = ('//*[@class="tabulator-cell"][@tabulator-field="name"]'); 
-    const valuesAge = ('//*[@class="tabulator-cell"][@tabulator-field="age"]');      
+    const valuesID = '//*[@class="tabulator-cell"][@tabulator-field="id"]';
+    const valuesName = '//*[@class="tabulator-cell"][@tabulator-field="name"]'; 
+    const valuesAge = '//*[@class="tabulator-cell"][@tabulator-field="age"]';      
     
     before('log in', async function(){
         // await browser.maximizeWindow();
@@ -21,12 +21,10 @@ describe('Table sorting', function(){
             await $(idHeader).click();
             const attribute = await $(idHeader).getAttribute('aria-sort');        
             expect (attribute).toMatch('asc');                
-            const arrRow = await $$(valuesID).map(async (elem) => {
+            const arr = await $$(valuesID).map(async (elem) => {
                 return await elem.getText()
-            });            
-            const arr = await Promise.all(arrRow);
-            const asc = Object.assign([], arr)
-            asc.sort()
+            });             
+            const asc = Object.assign([], arr).sort();            
             await expect(arr).toEqual(asc)
             
             
@@ -35,12 +33,10 @@ describe('Table sorting', function(){
             await $(idHeader).click();            
             const attribute = await $(idHeader).getAttribute('aria-sort');
             expect (attribute).toMatch('desc');
-            const arrRow = await $$(valuesID).map(async (elem) => {
+            const arr = await $$(valuesID).map(async (elem) => {
                 return await elem.getText()
-            });
-            const arr = await Promise.all(arrRow);
-            const desc = Object.assign([], arr)
-            desc.sort().reverse()
+            });            
+            const desc = Object.assign([], arr).sort().reverse()            
             await expect(arr).toEqual(desc)
         })             
         
@@ -50,12 +46,10 @@ describe('Table sorting', function(){
             await $(nameHeader).click();
             const attribute = await $(nameHeader).getAttribute('aria-sort')        
             expect (attribute).toMatch('asc'); 
-            const arrRow = await $$(valuesName).map(async(elem)=>{
+            const arr = await $$(valuesName).map(async(elem)=>{
                 return await elem.getText()
-            })
-            const arr = await Promise.all(arrRow);            
-            const asc = Object.assign([], arr)
-            asc.sort()          
+            })                        
+            const asc = Object.assign([], arr).sort();                    
             expect(arr).toEqual(asc)
             
         })
@@ -63,12 +57,10 @@ describe('Table sorting', function(){
             await $(nameHeader).click();
             const attribute = await $ (nameHeader).getAttribute('aria-sort');
             expect (attribute).toMatch('desc');
-            const arrRow = await $$(valuesName).map((elem)=> {
+            const arr = await $$(valuesName).map((elem)=> {
                 return elem.getText()
-            })
-            const arr = await Promise.all(arrRow);            
-            const desc = Object.assign([], arr);
-            desc.sort().reverse();            
+            })                       
+            const desc = Object.assign([], arr).sort().reverse();                        
             expect (arr).toEqual(desc);
         })
     });
@@ -77,24 +69,22 @@ describe('Table sorting', function(){
             await $(ageHeader).click();
             const attribute = await $(ageHeader).getAttribute('aria-sort');
             expect (attribute).toMatch('asc');
-            const arrRow = await $$ (valuesAge).map((elem)=>{
+            const arr = await $$ (valuesAge).map((elem)=>{
                 return elem.getText()
-            });
-            const arr = await Promise.all(arrRow);
-            const asc = Object.assign([], arr);
-            asc.sort((a,b)=> a>b)
+            });            
+            const asc = Object.assign([], arr).sort((a,b)=> a>b); 
+            console.log(asc)           
             expect (arr).toEqual(asc)
         });
         it('should sort Age in descending order', async function(){
             await $(ageHeader).click();
             const attribute = await $(ageHeader).getAttribute('aria-sort');
             expect (attribute).toMatch('desc');
-            const arrRow = await $$(valuesAge).map((elem)=>{
+            const arr = await $$(valuesAge).map((elem)=>{
                 return elem.getText()
-            });
-            const arr = await Promise.all(arrRow);
-            const desc = Object.assign([], arr);
-            desc.sort((a,b)=>  b>a)
+            });            
+            const desc = Object.assign([], arr).sort((a,b)=>  b>a);   
+            console.log(desc)      
             expect (arr).toEqual(desc)
         })
     })

@@ -1,3 +1,4 @@
+const fs = require('fs')  
 const {
     addStep,
     addFeature,
@@ -13,86 +14,86 @@ const {
 // const idleTimeout = 180000;
 
 const bsCaps = [
-    // {
-    //     'bstack:options' : {
-    //         "os" : "Windows",
-    //         "osVersion" : "10",
-    //         "local" : "true",
-    //         "networkLogs" : "true",
-    //         "video" : "true",
-    //         "seleniumVersion" : "3.10.0",
-    //         "userName" : "olga_CvzrAJ",
-    //         "accessKey" : "qTdzLzYiG3ypipgyN9DN",
-    //         },
-    //         "browserName" : "Firefox",
-    //         "browserVersion" : "latest",
-    // },
-    // {
-    //     'bstack:options' : {
-    //         "os" : "OS X",
-    //         "osVersion" : "Monterey",
-    //         "local" : "true",
-    //         "networkLogs" : "true",
-    //         "video" : "true",
-    //         "seleniumVersion" : "3.5.2",
-    //         "userName" : "olga_CvzrAJ",
-    //         "accessKey" : "qTdzLzYiG3ypipgyN9DN",
-    //         },
-    //         "browserName" : "Edge",
-    //         "browserVersion" : "latest",
-    // },
-    // {
-    //     'bstack:options' : {
-    //         "osVersion" : "15",
-    //         "deviceName" : "iPhone XS",
-    //         "realMobile" : "true",
-    //         "local" : "true",
-    //         "video" : "true",
-    //         "networkLogs" : "true",
-    //         "userName" : "olga_CvzrAJ",
-    //         "accessKey" : "qTdzLzYiG3ypipgyN9DN",
-    //         },
-    //         "browserName" : "safari",
-    // }
+    {
+        'bstack:options' : {
+            "os" : "Windows",
+            "osVersion" : "10",
+            "local" : "true",
+            "networkLogs" : "true",
+            "video" : "true",
+            "seleniumVersion" : "3.10.0",
+            "userName" : "olga_CvzrAJ",
+            "accessKey" : "qTdzLzYiG3ypipgyN9DN",
+            },
+            "browserName" : "Firefox",
+            "browserVersion" : "latest",
+    },
+    {
+        'bstack:options' : {
+            "os" : "OS X",
+            "osVersion" : "Monterey",
+            "local" : "true",
+            "networkLogs" : "true",
+            "video" : "true",
+            "seleniumVersion" : "3.5.2",
+            "userName" : "olga_CvzrAJ",
+            "accessKey" : "qTdzLzYiG3ypipgyN9DN",
+            },
+            "browserName" : "Edge",
+            "browserVersion" : "latest",
+    },
+    {
+        'bstack:options' : {
+            "osVersion" : "15",
+            "deviceName" : "iPhone XS",
+            "realMobile" : "true",
+            "local" : "true",
+            "video" : "true",
+            "networkLogs" : "true",
+            "userName" : "olga_CvzrAJ",
+            "accessKey" : "qTdzLzYiG3ypipgyN9DN",
+            },
+            "browserName" : "safari",
+    },
     
     
     
-    // {
-    //     'bstack:options': {
-    //         "os": "Windows",
-    //         "osVersion": "10",
-    //         "local": "false",
-    //         "seleniumVersion": "3.5.2",
-    //         "userName": process.env.USER,
-    //         "accessKey": process.env.KEY,
-    //     },
-    //     "browserName": "Edge",
-    //     "browserVersion": "latest-beta",
-    // },
-    // {
-    //     'bstack:options': {
-    //         "os": "Windows",
-    //         "osVersion": "10",
-    //         "local": "false",
-    //         "seleniumVersion": "3.5.2",
-    //         "userName": process.env.USER,
-    //         "accessKey": process.env.KEY,
-    //     },
-    //     "browserName": "Firefox",
-    //     "browserVersion": "latest-beta",
-    // },
-    // {
-    //     'bstack:options': {
-    //         "os": "OS X",
-    //         "osVersion": "Monterey",
-    //         "local": "false",
-    //         "seleniumVersion": "3.14.0",
-    //         "userName": process.env.USER,
-    //         "accessKey": process.env.KEY,
-    //     },
-    //     "browserName": "Safari",
-    //     "browserVersion": "15.0",
-    // }
+    {
+        'bstack:options': {
+            "os": "Windows",
+            "osVersion": "10",
+            "local": "false",
+            "seleniumVersion": "3.5.2",
+            "userName": process.env.USER,
+            "accessKey": process.env.KEY,
+        },
+        "browserName": "Edge",
+        "browserVersion": "latest-beta",
+    },
+    {
+        'bstack:options': {
+            "os": "Windows",
+            "osVersion": "10",
+            "local": "false",
+            "seleniumVersion": "3.5.2",
+            "userName": process.env.USER,
+            "accessKey": process.env.KEY,
+        },
+        "browserName": "Firefox",
+        "browserVersion": "latest-beta",
+    },
+    {
+        'bstack:options': {
+            "os": "OS X",
+            "osVersion": "Monterey",
+            "local": "false",
+            "seleniumVersion": "3.14.0",
+            "userName": process.env.USER,
+            "accessKey": process.env.KEY,
+        },
+        "browserName": "Safari",
+        "browserVersion": "15.0",
+    }
 ];
 
 const localCaps = [{
@@ -108,8 +109,8 @@ const localCaps = [{
 const bsServices = ['browserstack'];
 const localServices = ['chromedriver'];
 exports.config = {
-    user: process.env.USER || 'olga_CvzrAJ',
-    key: process.env.KEY || 'qTdzLzYiG3ypipgyN9DN',
+    user: process.env.USER,
+    key: process.env.KEY,
     specs: [
         './specs/**/*.js'
     ],
@@ -204,7 +205,7 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      */
     onPrepare: function (config, capabilities) {
-        const fs = require('fs');
+        
        if(fs.existsSync('./screenshots')){
         const fsExtra = require('fs-extra');
         fsExtra.emptyDirSync('screenshots')
@@ -307,7 +308,7 @@ exports.config = {
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
     afterTest: async function (test, context, { error, result, duration, passed, retries }) {
-        const fs = require('fs')        
+              
         if (!passed) {
             const name = new Date().toLocaleString();
             const fileName = (`${test.title} ` + name).replace(/[\s/,.:]/g, '_');
